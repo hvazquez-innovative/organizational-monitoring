@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.0.6 Chrome/138.0.7204.100 Electron/37.2.3 Safari/537.36" version="28.0.6">
   <diagram name="Investigation Orchestrator Architecture" id="investigation-orchestrator">
-    <mxGraphModel dx="1216" dy="717" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+    <mxGraphModel dx="1906" dy="1074" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -78,7 +78,7 @@
           <mxGeometry x="240" y="340" width="78" height="78" as="geometry" />
         </mxCell>
         <mxCell id="cloudwatch" value="CloudWatch Dashboard" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#F34482;gradientDirection=north;fillColor=#BC1356;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudwatch_2;" parent="central-group" vertex="1">
-          <mxGeometry x="60" y="470" width="78" height="78" as="geometry" />
+          <mxGeometry x="60" y="451" width="78" height="78" as="geometry" />
         </mxCell>
         <mxCell id="stepfunctions" value="Step Functions&#xa;Orchestration" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;gradientColor=#FF4F8B;gradientDirection=north;fillColor=#BC1356;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.step_functions;" parent="central-group" vertex="1">
           <mxGeometry x="460" y="340" width="78" height="78" as="geometry" />
@@ -93,13 +93,23 @@
           <mxGeometry x="660" y="470" width="120" height="40" as="geometry" />
         </mxCell>
         <mxCell id="arrow-bus-rule1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#BC1356;" parent="central-group" source="event-bus" target="rule-high" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="199" y="129" />
+              <mxPoint x="199" y="65" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="arrow-bus-rule2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#BC1356;" parent="central-group" source="event-bus" target="rule-medium" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="arrow-bus-rule3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#BC1356;" parent="central-group" source="event-bus" target="rule-pattern" edge="1">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="arrow-bus-rule3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#BC1356;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="central-group" source="event-bus" target="rule-pattern" edge="1">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="129" />
+              <mxPoint x="200" y="205" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="arrow-rule1-lambda" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#D05C17;" parent="central-group" source="rule-high" target="simple-routing" edge="1">
           <mxGeometry relative="1" as="geometry" />
@@ -210,7 +220,7 @@
         <mxCell id="stats-content" value="• Event Size: 3-10 KB (1-4% of 256 KB limit)&lt;br&gt;• Cost: ~$75-95/month for 10 clients&lt;br&gt;• Latency: &lt;1 second end-to-end&lt;br&gt;• Scalability: 100+ clients without changes&lt;br&gt;• Security: Zero raw data crosses accounts&lt;br&gt;• Reliability: 90% simple routing, 10% intelligent analysis" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=11;" parent="1" vertex="1">
           <mxGeometry x="760" y="840" width="740" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="Bq83D5HWQwSCA9WshtZw-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#FF6B00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" edge="1" parent="1" source="watcher-lambda-b">
+        <mxCell id="Bq83D5HWQwSCA9WshtZw-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;strokeWidth=2;strokeColor=#FF6B00;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="watcher-lambda-b" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="310" y="570" as="sourcePoint" />
             <mxPoint x="460" y="539" as="targetPoint" />
