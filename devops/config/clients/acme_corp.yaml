@@ -1,0 +1,27 @@
+# Client Configuration for Acme Corporation
+# This file defines the client-side deployment settings
+
+client_name: "Acme Corporation"
+client_account_id: "123456789012"
+region: "us-east-1"
+
+# Central account EventBridge ARN (get from central stack output)
+central_event_bus_arn: "arn:aws:events:us-east-1:999999999999:event-bus/client-investigations-dev"
+
+# AWS DevOps Agent configuration
+devops_agent:
+  agent_space_id: "space-abc123def456"
+  region: "us-east-1"
+
+# Investigation monitor schedule
+investigation_monitor:
+  schedule_rate: "rate(5 minutes)"  # How often to poll DevOps Agent
+  timeout_seconds: 60
+
+# Tags applied to all resources
+tags:
+  cost_center: "engineering"
+  on_call_team: "platform-team"
+  environment: "production"
+  tier: "enterprise"
+  application_url: "https://acme-dashboard.example.com"
