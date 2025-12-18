@@ -16,6 +16,8 @@ Investigation Orchestrator is an event-driven architecture that monitors AWS Dev
 
 ## Architecture Overview
 
+[image](docs/architecture.drawio.png)
+
 ```
 ┌─────────────────────────────────────────────────────┐
 │         Client Account A (123456789012)             │
