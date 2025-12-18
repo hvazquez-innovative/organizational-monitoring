@@ -372,25 +372,6 @@ integrations:
 | Large event size | >200 KB | Investigate sender |
 | Pattern detector failures | >3 in 1 hour | Check Bedrock Agent |
 
-### Troubleshooting
-
-**Event not appearing in central account:**
-1. Check client Lambda CloudWatch Logs
-2. Verify IAM permissions for events:PutEvents
-3. Check EventBridge metrics for FailedInvocations
-4. Validate event schema matches expected format
-
-**Pattern detection not triggering:**
-1. Check DynamoDB has recent investigations
-2. Verify Bedrock Agent is configured
-3. Check Lambda has permissions to invoke Bedrock
-4. Review CloudWatch Logs for Pattern Detection Lambda
-
-**False positive investigations:**
-1. Review DevOps Agent configuration
-2. Adjust CloudWatch alarm thresholds
-3. Add filters to Investigation Monitor
-4. Update event schema validation
 
 ---
 
@@ -448,26 +429,6 @@ pytest tests/integration/
 # CDK synthesis test
 cdk synth --all
 ```
-
----
-
-## Support
-
-### Documentation
-- Architecture diagram: `docs/architecture.drawio`
-- API reference: `docs/api.md`
-- Runbooks: `docs/runbooks/`
-
-### Contact
-- On-call engineering: `oncall@example.com`
-- Slack: `#investigation-orchestrator`
-- Jira project: `OPS`
-
----
-
-## License
-
-Internal use only - Proprietary
 
 ---
 
