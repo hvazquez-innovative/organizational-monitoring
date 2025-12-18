@@ -25,8 +25,7 @@ Investigation Orchestrator is an event-driven architecture that monitors AWS Dev
 | Component | Purpose | Trigger |
 |-----------|---------|---------|
 | **AWS DevOps Agent** | Investigates incidents in client infrastructure | CloudWatch alarms, tickets |
-| **Investigation Watcher Lambda** | Polls DevOps Agent for completed investigations | EventBridge Schedule (5 min) |
-| **Event Formatter Lambda** | Extracts summary, redacts sensitive data, generates signed links | Watcher Lambda invocation |
+| **Investigation Monitor Lambda** | Polls DevOps Agent, formats events, redacts sensitive data, sends to central | EventBridge Schedule (5 min) |
 
 **Key Outputs:**
 - Investigation summary (3-10 KB)
@@ -64,22 +63,14 @@ Client DevOps Agent completes investigation
 
 ### 2. Event Detection
 ```
-Investigation Watcher Lambda (runs every 5 min)
+Investigation Monitor Lambda (runs every 5 min)
 → Queries DevOps Agent status
 → Detects completed investigations
-→ Invokes Event Formatter Lambda
+→ Formats and redacts event data
+→ Sends to central EventBridge
 ```
 
-### 3. Event Formatting
-```
-Event Formatter Lambda
-→ Extracts summary from investigation
-→ Redacts sensitive data (IPs, logs, secrets)
-→ Generates signed URLs to DevOps Agent
-→ Sends to EventBridge in central account
-```
-
-### 4. Event Routing
+### 3. Event Routing
 ```
 EventBridge Event Bus (central account)
 → Applies rules based on event attributes
@@ -95,7 +86,7 @@ If pattern detected (multiple clients, same root cause):
   → Pattern Detection Lambda → Bedrock Agent → Senior engineer alert
 ```
 
-### 5. Storage & Visibility
+### 4. Storage & Visibility
 ```
 All events stored in DynamoDB
 → CloudWatch Dashboard updated
@@ -185,8 +176,7 @@ Central account engineers can assume role to:
 
 | Component | Cost/Month |
 |-----------|-----------|
-| Investigation Watcher Lambda (8,640 invocations @ 5 min) | $1.73 |
-| Event Formatter Lambda (50 investigations) | $0.10 |
+| Investigation Monitor Lambda (8,640 invocations @ 5 min) | $1.73 |
 | EventBridge PutEvents (50 events) | $0.00005 |
 | **Total per client** | **~$2/month** |
 
@@ -248,7 +238,7 @@ With Bedrock Agent: ~$87/month
 
 ### 1. Clone Repository
 ```bash
-git clone <repository>
+git clone 
 cd investigation-orchestrator
 ```
 
@@ -278,7 +268,7 @@ cdk deploy CentralMonitoringStack
 export AWS_PROFILE=client-a-account
 cdk deploy ClientInvestigationStack \
   --context clientName=ClientA \
-  --context centralEventBusArn=<from-central-stack>
+  --context centralEventBusArn=
 ```
 
 ### 6. Verify Deployment
@@ -300,8 +290,8 @@ client_name: "Acme Corporation"
 client_account_id: "123456789012"
 environment: "production"
 
-investigation_watcher:
-  schedule_rate: "rate(5 minutes)"
+investigation_monitor:
+  schedule_rate: "rate(5 minutes)"  # How often to poll DevOps Agent
   timeout_seconds: 60
 
 devops_agent:
@@ -399,7 +389,7 @@ integrations:
 **False positive investigations:**
 1. Review DevOps Agent configuration
 2. Adjust CloudWatch alarm thresholds
-3. Add filters to Investigation Watcher
+3. Add filters to Investigation Monitor
 4. Update event schema validation
 
 ---
