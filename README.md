@@ -18,59 +18,6 @@ Investigation Orchestrator is an event-driven architecture that monitors AWS Dev
 
 ![image](docs/architecture.drawio.png)
 
-```
-┌─────────────────────────────────────────────────────┐
-│         Client Account A (123456789012)             │
-│  ┌──────────────┐      ┌──────────────────────┐    │
-│  │ AWS DevOps   │      │ Investigation        │    │
-│  │ Agent        │──────▶ Watcher Lambda       │    │
-│  │              │      │ (Polls every 5 min)  │    │
-│  └──────────────┘      └──────────┬───────────┘    │
-│                                    │                 │
-│                                    ▼                 │
-│                         ┌────────────────────────┐  │
-│                         │ Event Formatter       │  │
-│                         │ - Extracts summary    │  │
-│                         │ - Redacts sensitive   │  │
-│                         │ - Generates links     │  │
-│                         └──────────┬────────────┘  │
-└────────────────────────────────────┼────────────────┘
-                                     │
-                    EventBridge PutEvents (Summary Only)
-                                     │
-┌────────────────────────────────────▼────────────────┐
-│      Central Monitoring Account (999999999999)      │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ EventBridge Event Bus                        │  │
-│  │ - Receives events from all clients           │  │
-│  │ - Routes based on severity/patterns          │  │
-│  └───┬──────────────────────────────────┬───────┘  │
-│      │                                   │           │
-│      ▼                                   ▼           │
-│  ┌──────────────────┐      ┌─────────────────────┐ │
-│  │ Simple Routing   │      │ Pattern Detection   │ │
-│  │ Lambda (90%)     │      │ Lambda (10%)        │ │
-│  │ - HIGH → Page    │      │ - Uses Bedrock      │ │
-│  │ - MED → Ticket   │      │ - Correlates events │ │
-│  └────────┬─────────┘      └──────────┬──────────┘ │
-│           │                           │             │
-│           ▼                           ▼             │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ DynamoDB: Investigation Tracker              │  │
-│  │ - Active investigations                      │  │
-│  │ - Historical patterns                        │  │
-│  └──────────────────────────────────────────────┘  │
-│                                                      │
-│  ┌──────────────────────────────────────────────┐  │
-│  │ CloudWatch Dashboard                         │  │
-│  │ - Client health overview                     │  │
-│  │ - MTTR trends                                │  │
-│  │ - Investigation outcomes                     │  │
-│  └──────────────────────────────────────────────┘  │
-└──────────────────────────────────────────────────────┘
-```
-
 ## Key Components
 
 ### Client Account Stack (Per Client)
